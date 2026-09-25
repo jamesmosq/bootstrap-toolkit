@@ -28,6 +28,19 @@ class BootstrapAssetsTest {
         }.toSet()
     }
 
+    /**
+     * Classes with no CSS rule that Bootstrap's JavaScript reads, e.g. `carousel slide` enables the animation
+     * (`classList.contains("slide")`). Each one must really be referenced by the vendored JS bundle.
+     */
+    private val jsOnlyClasses = setOf("slide")
+
+    @Test
+    fun `js-only classes are really used by the bootstrap bundle`() {
+        val bundle = templates.flatMap { t -> cdnLink.findAll(t.value).map { it.groupValues[1] } }.single { it.endsWith("bootstrap.bundle.min.js") }
+        val js = requireNotNull(vendored(bundle)).decodeToString()
+        jsOnlyClasses.forEach { assertTrue("'$it' is not referenced by $bundle", js.contains("classList.contains(\"$it\")")) }
+    }
+
     @Test
     fun `integrity hashes match the files served by the cdn`() {
         val links = templates.flatMap { t -> cdnLink.findAll(t.value).map { t.name to it } }
@@ -46,7 +59,7 @@ class BootstrapAssetsTest {
         val classAttribute = Regex("""\sclass="([^"]*)"""")
         val unknown = templates.flatMap { t ->
             t.expansions().flatMap { markup -> classAttribute.findAll(markup).flatMap { it.groupValues[1].split(Regex("\\s+")) } }
-                .filter { it.isNotEmpty() && it !in knownClasses }
+                .filter { it.isNotEmpty() && it !in knownClasses && it !in jsOnlyClasses }
                 .map { "${t.name}: .$it" }
         }.distinct()
         assertTrue("classes not defined by Bootstrap 5.3.8 / Bootstrap Icons 1.13.1:\n${unknown.joinToString("\n")}", unknown.isEmpty())

@@ -15,6 +15,13 @@ Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue in JetBrains IDEs
 | `bs5-table` | Responsive table (striped, hover, bordered, borderless, sm or dark) |
 | `bs5-accordion` | Accordion with three items |
 | `bs5-footer` | Footer with copyright (current year filled in) and links |
+| `bs5-dropdown` | Dropdown button with menu, with a list of colors |
+| `bs5-tabs` | Tabs with their content panes |
+| `bs5-carousel` | Carousel with real photos (picsum.photos), indicators and controls |
+| `bs5-toast` | Toast in the lower right corner |
+| `bs5-spinner` | Loading spinner (border or grow), with a list of colors |
+| `bs5-pagination` | Pagination |
+| `bs5-breadcrumb` | Breadcrumb |
 | `bs5-icon` | Bootstrap Icons icon, with a list of common icons to pick from |
 
 Every template works in HTML and Vue (`class`) and in JSX/TSX (`className`, `htmlFor`, self-closed tags,
