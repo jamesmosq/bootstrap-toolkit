@@ -98,13 +98,19 @@ jobs:
       - name: Run Tests
         run: ./gradlew check
 
+      # Unit tests of the live template generator (buildSrc is not covered by `check`)
+      - name: Run Generator Tests
+        run: ./gradlew -p buildSrc test
+
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
         if: ${{ failure() }}
         uses: actions/upload-artifact@v7
         with:
           name: tests-result
-          path: ${{ github.workspace }}/build/reports/tests
+          path: |
+            ${{ github.workspace }}/build/reports/tests
+            ${{ github.workspace }}/buildSrc/build/reports/tests
 
   # Run plugin structure verification along with IntelliJ Plugin Verifier
   verify:

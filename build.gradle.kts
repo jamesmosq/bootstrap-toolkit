@@ -1,3 +1,4 @@
+import com.jamesmosquera.bootstraptoolkit.build.GenerateLiveTemplates
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
@@ -14,6 +15,17 @@ dependencies {
         intellijIdea("2025.2.6.2")
         testFramework(TestFrameworkType.Platform)
     }
+}
+
+// Live templates are generated from the single source in src/templates (see buildSrc):
+// one HTML/Vue group (class) and one JSX/TSX group (className). Never edit the generated XML.
+val generateLiveTemplates by tasks.registering(GenerateLiveTemplates::class) {
+    sourceDir = layout.projectDirectory.dir("src/templates")
+    outputDir = layout.buildDirectory.dir("generated/liveTemplates")
+}
+
+sourceSets.main {
+    resources.srcDir(generateLiveTemplates)
 }
 
 // Plugin signing: https://plugins.jetbrains.com/docs/intellij/plugin-signing.html

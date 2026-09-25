@@ -10,13 +10,15 @@ Thanks for helping improve Bootstrap Toolkit! Contributions in English or Spanis
 
    ```bash
    ./gradlew check verifyPlugin
+   ./gradlew -p buildSrc test
    ```
 
 ## Guidelines
 
-- Bootstrap 5.3 only. JSX/TSX templates must use `className` (never `class`); every HTML template needs a JSX counterpart.
+- Bootstrap 5.3 only. Add or edit templates only in `src/templates` (plain HTML with a small header, see the
+  existing files). The JSX/TSX version is generated from it; never edit live template XML by hand.
 - Keep UI strings in a resource bundle (English) with a Spanish translation once a UI exists.
-- Add or update tests in `src/test/kotlin` when you touch the live templates.
+- Add or update tests in `src/test/kotlin` (generated templates) or `buildSrc/src/test` (generator) when you change them.
 - Add a line under `## [Unreleased]` in `CHANGELOG.md` describing your change.
 
 ## Reporting bugs
