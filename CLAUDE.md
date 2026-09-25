@@ -6,7 +6,8 @@ Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugi
 Sister project (same build setup, already on the Marketplace): `../photo-placeholders`.
 
 ## Status — read first
-- Early prototype: 2 components (`bs5-btn`, `bs5-alert`), generated into 2 dialects (HTML, JSX).
+- Early prototype: 6 components (`bs5-btn`, `-alert`, `-card`, `-navbar`, `-modal`, `-form`), generated into
+  2 dialects (HTML, JSX).
   No plugin Kotlin code yet; the only Kotlin is the build-time generator in `buildSrc`.
 - **Verified manually (2026-09-24)** in WebStorm 2026.2 with the zip installed from disk: `bs5-btn` /
   `bs5-alert` expand correctly in .html, .jsx, .tsx (`className`) and Vue `<template>` (`class`),
@@ -83,4 +84,7 @@ Run `signPlugin` and `verifyPluginSignature` in separate invocations.
 ## Next steps
 1. ~~Confirm templates expand in .html, .jsx, .tsx and Vue~~ — done 2026-09-24 (WebStorm 2026.2).
 2. ~~Single data source for templates~~ — done: `src/templates` + buildSrc generator.
-3. Grow coverage (components, 5.3 utilities, full-page starters), then the generator dialog.
+3. Automate the TSX type check: it was done by hand once (typescript 5 + @types/react 19,
+   `tsc --noEmit --strict --jsx react-jsx` over every JSX template with defaults filled in) and caught
+   `tabIndex="-1"` (must be `{-1}`). Make it a Gradle/CI step so every new template is compiled.
+4. Grow coverage (components, 5.3 utilities, full-page starters), then the generator dialog.

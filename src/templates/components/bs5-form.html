@@ -1,0 +1,20 @@
+<!--
+description: Bootstrap 5 form with email, password, checkbox and submit
+var SUBMIT: Submit
+-->
+<form>
+  <div class="mb-3">
+    <label for="inputEmail" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text">We never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <label for="inputPassword" class="form-label">Password</label>
+    <input type="password" class="form-control" id="inputPassword">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="checkRemember">
+    <label class="form-check-label" for="checkRemember">Remember me</label>
+  </div>
+  <button type="submit" class="btn btn-primary">$SUBMIT$</button>
+</form>
