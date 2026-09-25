@@ -1,0 +1,21 @@
+<!-- https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- The id can never change once published. -->
+    <id>com.jamesmosquera.bootstraptoolkit</id>
+    <name>Bootstrap Toolkit</name>
+    <vendor email="jamesmosqr@gmail.com" url="https://www.jamesmosquera.com">James Mosquera</vendor>
+
+    <description><![CDATA[
+    <p>Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue. Work in progress.</p>
+    <p>Unofficial plugin, not affiliated with the Bootstrap project.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- https://plugins.jetbrains.com/docs/intellij/providing-live-templates.html
+             One group per markup dialect: JSX/TSX needs className, HTML/Vue needs class. -->
+        <defaultLiveTemplates file="/liveTemplates/BootstrapToolkitHtml.xml"/>
+        <defaultLiveTemplates file="/liveTemplates/BootstrapToolkitJsx.xml"/>
+    </extensions>
+</idea-plugin>

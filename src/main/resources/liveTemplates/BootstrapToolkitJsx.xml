@@ -1,0 +1,20 @@
+<templateSet group="Bootstrap Toolkit (JSX)">
+    <template name="bs5-btn" value="&lt;button type=&quot;button&quot; className=&quot;btn btn-$VARIANT$&quot;&gt;$TEXT$&lt;/button&gt;$END$"
+              description="Bootstrap 5 button (JSX/TSX)" toReformat="false" toShortenFQNames="false">
+        <variable name="VARIANT" expression="" defaultValue="&quot;primary&quot;" alwaysStopAt="true"/>
+        <variable name="TEXT" expression="" defaultValue="&quot;Button&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="JSX_HTML" value="true"/>
+            <option name="TSX_HTML" value="true"/>
+        </context>
+    </template>
+    <template name="bs5-alert" value="&lt;div className=&quot;alert alert-$VARIANT$&quot; role=&quot;alert&quot;&gt;$TEXT$&lt;/div&gt;$END$"
+              description="Bootstrap 5 alert (JSX/TSX)" toReformat="false" toShortenFQNames="false">
+        <variable name="VARIANT" expression="" defaultValue="&quot;primary&quot;" alwaysStopAt="true"/>
+        <variable name="TEXT" expression="" defaultValue="&quot;A simple alert&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="JSX_HTML" value="true"/>
+            <option name="TSX_HTML" value="true"/>
+        </context>
+    </template>
+</templateSet>

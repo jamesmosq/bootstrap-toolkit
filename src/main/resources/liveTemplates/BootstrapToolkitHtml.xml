@@ -1,0 +1,20 @@
+<templateSet group="Bootstrap Toolkit (HTML)">
+    <template name="bs5-btn" value="&lt;button type=&quot;button&quot; class=&quot;btn btn-$VARIANT$&quot;&gt;$TEXT$&lt;/button&gt;$END$"
+              description="Bootstrap 5 button" toReformat="false" toShortenFQNames="false">
+        <variable name="VARIANT" expression="" defaultValue="&quot;primary&quot;" alwaysStopAt="true"/>
+        <variable name="TEXT" expression="" defaultValue="&quot;Button&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="HTML" value="true"/>
+            <option name="VUE_TEMPLATE" value="true"/>
+        </context>
+    </template>
+    <template name="bs5-alert" value="&lt;div class=&quot;alert alert-$VARIANT$&quot; role=&quot;alert&quot;&gt;$TEXT$&lt;/div&gt;$END$"
+              description="Bootstrap 5 alert" toReformat="false" toShortenFQNames="false">
+        <variable name="VARIANT" expression="" defaultValue="&quot;primary&quot;" alwaysStopAt="true"/>
+        <variable name="TEXT" expression="" defaultValue="&quot;A simple alert&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="HTML" value="true"/>
+            <option name="VUE_TEMPLATE" value="true"/>
+        </context>
+    </template>
+</templateSet>
