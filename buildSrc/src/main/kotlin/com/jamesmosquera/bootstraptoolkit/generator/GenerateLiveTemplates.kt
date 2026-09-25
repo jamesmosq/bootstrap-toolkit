@@ -39,7 +39,7 @@ abstract class GenerateLiveTemplates : DefaultTask() {
             try {
                 TemplateSource.parse(file.nameWithoutExtension, file.readText()).also {
                     // Fail here, with the file name, rather than later while rendering.
-                    JsxConverter.convert(it.body)
+                    if (it.kind == Kind.COMPONENT) JsxConverter.convert(it.body)
                 }
             } catch (e: IllegalArgumentException) {
                 throw GradleException("src/templates/$path: ${e.message}", e)

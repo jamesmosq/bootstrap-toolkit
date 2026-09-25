@@ -40,8 +40,9 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
   `{/* */}`, `defaultValue`/`defaultChecked`). Same abbreviation in both, so they are separate templateSet
   groups (same abbreviation twice in one group collides). If a source can't be converted safely the build
   fails with the file name — fix the source, don't special-case the converter.
-- Source format: header `<!-- description: ...  /  var NAME: default -->` (var order = Tab order), then the
-  body. Every `$VAR$` used must be declared and vice versa; `$END$` is appended if missing.
+- Source format: header `<!-- description: ...  /  kind: page (optional)  /  var NAME: default -->` (var order =
+  Tab order), then the body. `kind: page` = whole `<!doctype html>` document: HTML context only (not Vue,
+  no JSX); lives in `src/templates/pages`. Every `$VAR$` used must be declared and vice versa; `$END$` is appended if missing.
 - Never name a source directory or package `build`: `.gitignore` ignores every `build` path, so the files
   silently stay out of git (this happened once with the generator package).
 - Multi-line templates are not yet tested in an IDE (indentation on expansion, `toReformat`) — verify
@@ -49,6 +50,9 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
 - Context ids that exist in IDEA 2025.2 (verified): `HTML`, `HTML_TEXT`, `JSX_HTML` (base JAVA_SCRIPT),
   `TSX_HTML` (base TypeScript — must be declared separately), `VUE_TEMPLATE`, `ANGULAR_TEMPLATE`.
   PHP/Blade/Twig contexts only exist in PhpStorm.
+- CDN: Bootstrap 5.3.8 from jsDelivr with `integrity` + `crossorigin` (test enforces one pinned version).
+  Hashes come from Bootstrap's `config.yml` AND were recomputed from the real files
+  (`curl -sL URL | openssl dgst -sha384 -binary | openssl base64 -A`). Redo both when bumping the version.
 - Images: use https://picsum.photos, never `holder.js` or `via.placeholder.com` (tests enforce this).
 - Anything copied from anburocky3/bootstrap5-snippets (MIT, (c) 2021 Anbuselvan Annamalai) requires his
   copyright + MIT notice in `THIRD_PARTY_NOTICES.md` and a credit in the README. Create the file the

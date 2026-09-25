@@ -8,24 +8,32 @@ class LiveTemplateGroup(
     val fileName: String,
     val group: String,
     val descriptionSuffix: String,
-    val contexts: List<String>,
+    val kinds: Set<Kind>,
+    val contexts: (Kind) -> List<String>,
     val markup: (TemplateSource) -> String,
 )
 
 object LiveTemplateXml {
 
-    /** The two dialects. The same abbreviation lives in both, so they must be separate groups. */
+    /**
+     * The two dialects. The same abbreviation lives in both, so they must be separate groups.
+     * Pages are whole documents: plain HTML files only (not a Vue <template>, not JSX).
+     */
     val GROUPS = listOf(
-        LiveTemplateGroup("BootstrapToolkitHtml.xml", "Bootstrap Toolkit (HTML)", "", listOf("HTML", "VUE_TEMPLATE")) { it.body },
-        LiveTemplateGroup("BootstrapToolkitJsx.xml", "Bootstrap Toolkit (JSX)", " (JSX/TSX)", listOf("JSX_HTML", "TSX_HTML")) {
-            JsxConverter.convert(it.body)
-        },
+        LiveTemplateGroup(
+            "BootstrapToolkitHtml.xml", "Bootstrap Toolkit (HTML)", "", setOf(Kind.COMPONENT, Kind.PAGE),
+            contexts = { if (it == Kind.PAGE) listOf("HTML") else listOf("HTML", "VUE_TEMPLATE") },
+        ) { it.body },
+        LiveTemplateGroup(
+            "BootstrapToolkitJsx.xml", "Bootstrap Toolkit (JSX)", " (JSX/TSX)", setOf(Kind.COMPONENT),
+            contexts = { listOf("JSX_HTML", "TSX_HTML") },
+        ) { JsxConverter.convert(it.body) },
     )
 
     fun render(group: LiveTemplateGroup, templates: List<TemplateSource>): String = buildString {
         append("<!-- Generated from src/templates by the generateLiveTemplates task. Do not edit. -->\n")
         append("<templateSet group=\"${escape(group.group)}\">\n")
-        templates.forEach { template ->
+        templates.filter { it.kind in group.kinds }.forEach { template ->
             val markup = group.markup(template).let { if ("\$END\$" in it) it else it + "\$END\$" }
             append("    <template name=\"${escape(template.name)}\" value=\"${escape(markup)}\"\n")
             append("              description=\"${escape(template.description + group.descriptionSuffix)}\" toReformat=\"false\" toShortenFQNames=\"false\">\n")
@@ -33,7 +41,7 @@ object LiveTemplateXml {
                 append("        <variable name=\"${it.name}\" expression=\"\" defaultValue=\"${escape("\"${it.default}\"")}\" alwaysStopAt=\"true\"/>\n")
             }
             append("        <context>\n")
-            group.contexts.forEach { append("            <option name=\"$it\" value=\"true\"/>\n") }
+            group.contexts(template.kind).forEach { append("            <option name=\"$it\" value=\"true\"/>\n") }
             append("        </context>\n")
             append("    </template>\n")
         }

@@ -29,6 +29,17 @@ class TemplateSourceTest {
     }
 
     @Test
+    fun `pages must be documents and documents must be pages`() {
+        val page = "<!--\ndescription: Starter\nkind: page\n-->\n<!doctype html>\n<html>\$END\$</html>"
+        assertEquals(Kind.PAGE, TemplateSource.parse("bs5-starter", page).kind)
+        assertThrows(IllegalArgumentException::class.java) { TemplateSource.parse("bs5-starter", page.replace("kind: page\n", "")) }
+        assertThrows(IllegalArgumentException::class.java) {
+            TemplateSource.parse("bs5-btn", valid.replace("description: Button", "description: Button\r\nkind: page"))
+        }
+        assertThrows(IllegalStateException::class.java) { TemplateSource.parse("bs5-starter", page.replace("kind: page", "kind: site")) }
+    }
+
+    @Test
     fun `rejects missing header and unknown keys`() {
         assertThrows(IllegalStateException::class.java) { TemplateSource.parse("bs5-btn", "<button></button>") }
         assertThrows(IllegalStateException::class.java) { TemplateSource.parse("bs5-btn", valid.replace("description", "desc")) }

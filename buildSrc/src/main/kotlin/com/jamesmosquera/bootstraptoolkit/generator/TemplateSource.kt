@@ -4,6 +4,12 @@ package com.jamesmosquera.bootstraptoolkit.generator
 data class Variable(val name: String, val default: String)
 
 /**
+ * COMPONENT: a fragment, generated for HTML/Vue and JSX/TSX.
+ * PAGE: a whole document (`<!doctype html>`...), generated for plain HTML only.
+ */
+enum class Kind { COMPONENT, PAGE }
+
+/**
  * One source template: an HTML file under src/templates whose name is the abbreviation
  * (bs5-btn.html -> bs5-btn) and which starts with a header comment:
  *
@@ -16,6 +22,7 @@ data class Variable(val name: String, val default: String)
  * <button type="button" class="btn btn-$VARIANT$">$TEXT$</button>
  * ```
  *
+ * Optional header key `kind: page` marks a whole document (HTML only, see [Kind]).
  * The body is plain Bootstrap 5.3 HTML; the JSX version is derived from it by [JsxConverter].
  */
 data class TemplateSource(
@@ -23,6 +30,7 @@ data class TemplateSource(
     val description: String,
     val variables: List<Variable>,
     val body: String,
+    val kind: Kind = Kind.COMPONENT,
 ) {
     companion object {
         private val NAME = Regex("""bs5-[a-z0-9]+(-[a-z0-9]+)*""")
@@ -37,6 +45,7 @@ data class TemplateSource(
             val header = HEADER.find(source) ?: error("must start with a <!-- ... --> header")
 
             var description = ""
+            var kind = Kind.COMPONENT
             val variables = mutableListOf<Variable>()
             header.groupValues[1].lines().map { it.trim() }.filter { it.isNotEmpty() }.forEach { line ->
                 require(':' in line) { "header line must be 'key: value' (got '$line')" }
@@ -44,8 +53,10 @@ data class TemplateSource(
                 val value = line.substringAfter(':').trim()
                 when {
                     key == "description" -> description = value
+                    key == "kind" -> kind = Kind.entries.firstOrNull { it.name.equals(value, ignoreCase = true) }
+                        ?: error("kind must be 'component' or 'page' (got '$value')")
                     key.startsWith("var ") -> variables += Variable(key.removePrefix("var ").trim(), value)
-                    else -> error("unknown header key '$key' (expected 'description' or 'var NAME')")
+                    else -> error("unknown header key '$key' (expected 'description', 'kind' or 'var NAME')")
                 }
             }
 
@@ -65,7 +76,12 @@ data class TemplateSource(
             (used - declared.toSet()).let { require(it.isEmpty()) { "used but not declared: $it" } }
             (declared.toSet() - used).let { require(it.isEmpty()) { "declared but not used: $it" } }
 
-            return TemplateSource(name, description, variables, body)
+            val isDocument = body.trimStart().startsWith("<!doctype", ignoreCase = true)
+            require(isDocument == (kind == Kind.PAGE)) {
+                if (isDocument) "a <!doctype html> document needs 'kind: page'" else "'kind: page' must start with <!doctype html>"
+            }
+
+            return TemplateSource(name, description, variables, body, kind)
         }
     }
 }
