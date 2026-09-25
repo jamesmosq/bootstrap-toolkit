@@ -1,0 +1,36 @@
+package com.jamesmosquera.bootstraptoolkit.generator
+
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
+import org.junit.Test
+
+class TemplateSourceTest {
+
+    private val valid = "<!--\r\ndescription: Button\r\nvar VARIANT: primary\r\nvar TEXT: Button\r\n-->\r\n\r\n<button class=\"btn btn-\$VARIANT\$\">\$TEXT\$</button>\r\n"
+
+    @Test
+    fun `parses header and body, normalising line endings`() {
+        val t = TemplateSource.parse("bs5-btn", valid)
+        assertEquals("Button", t.description)
+        assertEquals(listOf(Variable("VARIANT", "primary"), Variable("TEXT", "Button")), t.variables)
+        assertEquals("<button class=\"btn btn-\$VARIANT\$\">\$TEXT\$</button>", t.body)
+    }
+
+    @Test
+    fun `rejects invalid sources`() {
+        fun fails(name: String, text: String) =
+            assertThrows(IllegalArgumentException::class.java) { TemplateSource.parse(name, text) }
+
+        fails("btn", valid) // missing bs5- prefix
+        fails("bs5-btn", valid.replace("var TEXT: Button\r\n", "")) // used but not declared
+        fails("bs5-btn", valid.replace("\$TEXT\$", "Go")) // declared but not used
+        fails("bs5-btn", valid.replace("description: Button", "description:")) // no description
+        fails("bs5-btn", valid.replace("var VARIANT", "var variant")) // not UPPER_SNAKE_CASE
+    }
+
+    @Test
+    fun `rejects missing header and unknown keys`() {
+        assertThrows(IllegalStateException::class.java) { TemplateSource.parse("bs5-btn", "<button></button>") }
+        assertThrows(IllegalStateException::class.java) { TemplateSource.parse("bs5-btn", valid.replace("description", "desc")) }
+    }
+}
