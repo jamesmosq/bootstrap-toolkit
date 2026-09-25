@@ -46,6 +46,10 @@ class LiveTemplatesTest {
     private val html = load("/liveTemplates/BootstrapToolkitHtml.xml")
     private val jsx = load("/liveTemplates/BootstrapToolkitJsx.xml")
 
+    /** Whole documents (`<!doctype html>`): HTML only, no JSX counterpart. */
+    private val pages = html.filter { it.value.trimStart().startsWith("<!doctype", ignoreCase = true) }
+    private val components = html - pages.toSet()
+
     @Test
     fun `groups are not empty`() {
         assertTrue(html.isNotEmpty())
@@ -81,8 +85,26 @@ class LiveTemplatesTest {
     }
 
     @Test
-    fun `every html template has a jsx counterpart and vice versa`() =
-        assertEquals(html.map { it.name }.toSet(), jsx.map { it.name }.toSet())
+    fun `pages exist and only target plain html`() {
+        assertTrue(pages.isNotEmpty())
+        pages.forEach { assertEquals("${it.name} is a page", setOf("HTML"), it.contexts) }
+    }
+
+    @Test
+    fun `cdn links pin one bootstrap version and carry an integrity hash`() {
+        val cdn = Regex("""(?:href|src)="(https://cdn\.jsdelivr\.net/npm/bootstrap@([^/]+)/[^"]+)"([^>]*)>""")
+        val links = html.flatMap { t -> cdn.findAll(t.value).map { t.name to it } }
+        assertTrue("no Bootstrap CDN link found", links.isNotEmpty())
+        links.forEach { (name, m) ->
+            assertEquals("$name must use Bootstrap 5.3.8", "5.3.8", m.groupValues[2])
+            assertTrue("$name: ${m.groupValues[1]} needs integrity + crossorigin",
+                Regex("""integrity="sha384-[A-Za-z0-9+/=]+"""").containsMatchIn(m.groupValues[3]) && m.groupValues[3].contains("crossorigin="))
+        }
+    }
+
+    @Test
+    fun `every html component has a jsx counterpart and vice versa`() =
+        assertEquals(components.map { it.name }.toSet(), jsx.map { it.name }.toSet())
 
     @Test
     fun `jsx markup has no html-only syntax`() {
@@ -97,7 +119,7 @@ class LiveTemplatesTest {
     @Test
     fun `html and jsx versions share the same variables and description`() {
         val jsxByName = jsx.associateBy { it.name }
-        html.forEach {
+        components.forEach {
             val other = jsxByName.getValue(it.name)
             assertEquals("${it.name} variables differ", it.variables, other.variables)
             assertEquals("${it.name} descriptions differ", "${it.description} (JSX/TSX)", other.description)
