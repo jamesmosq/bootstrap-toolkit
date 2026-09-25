@@ -30,6 +30,10 @@ object JsxConverter {
         "formaction" to "formAction", "playsinline" to "playsInline",
     )
 
+    /** Props typed as `number` in @types/react; integer literals are emitted as `{n}`. */
+    private val NUMERIC_PROPS = setOf("tabIndex", "rows", "cols", "size", "span", "start", "colSpan", "rowSpan", "maxLength", "minLength")
+    private val INTEGER = Regex("""-?\d+""")
+
     /** Input types whose `value` is not the edited value, so it stays `value`. */
     private val FIXED_VALUE_INPUT_TYPES = setOf("checkbox", "radio", "submit", "button", "reset", "hidden", "image")
 
@@ -80,6 +84,8 @@ object JsxConverter {
             else -> name
         }
         if (value == null) return jsxName
+        // React's TypeScript types declare these as number, so "-1" would not compile in TSX.
+        if (jsxName in NUMERIC_PROPS && INTEGER.matches(value)) return "$jsxName={$value}"
         // JSX string attributes accept both quote styles; keep the source's.
         return if (match.groups[3] != null) "$jsxName='$value'" else "$jsxName=\"$value\""
     }
