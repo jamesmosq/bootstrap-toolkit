@@ -124,6 +124,15 @@ Done: single source + generator, 27 components + starter, automatic class/SRI/TS
 5. **Other technologies (`vue-`, `ts-`, ...)** — only after deciding whether they belong in this plugin.
 6. Generator dialog (Heroicons search/insert fits here).
 
-Open question (owner): the name "Bootstrap Toolkit" fits steps 1-3; `css-`/`vue-`/`ts-` families would need a
-broader name (the id `com.jamesmosquera.bootstraptoolkit` cannot change) or a separate plugin. Decide before
-publishing 0.1.0 if the name should change.
+Decided (owner, 2026-09-24): **option A** — this plugin stays focused on Bootstrap (steps 1-3). `css-`, `vue-`,
+`ts-` families will be separate plugins, each built to the same standard (single source, generator, automatic
+checks). Step 4-5 above therefore belong to future plugins, not this one.
+
+Picsum across plugins (owner idea, 2026-09-24): do NOT copy the Photo Placeholders dialog/templates into each
+plugin (duplicate menus and `picsum*` templates if both are installed, double maintenance). Instead:
+(1) picsum URLs inside templates (`/seed/<name>/W/H` so each image is distinct and stable);
+(2) recommend Photo Placeholders in the description — ONLY once it is approved (on 2026-09-24 the API still
+says `approve: false`; a link to a non-public listing counts as a broken link in review);
+(3) later, an optional plugin dependency on `com.jamesmosquera.photoplaceholders`
+(https://plugins.jetbrains.com/docs/intellij/plugin-dependencies.html, `<depends optional="true" config-file=...>`)
+to reuse its gallery, e.g. to change a card's photo. Needs Kotlin code; after 0.1.0.
