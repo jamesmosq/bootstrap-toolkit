@@ -1,7 +1,10 @@
 package com.jamesmosquera.bootstraptoolkit.generator
 
-/** A live template variable. Declaration order is the Tab order in the editor. */
-data class Variable(val name: String, val default: String)
+/**
+ * A live template variable. Declaration order is the Tab order in the editor.
+ * [options] become an `enum(...)` expression: a completion list shown when the template expands.
+ */
+data class Variable(val name: String, val default: String, val options: List<String> = emptyList())
 
 /**
  * COMPONENT: a fragment, generated for HTML/Vue and JSX/TSX.
@@ -22,7 +25,8 @@ enum class Kind { COMPONENT, PAGE }
  * <button type="button" class="btn btn-$VARIANT$">$TEXT$</button>
  * ```
  *
- * Optional header key `kind: page` marks a whole document (HTML only, see [Kind]).
+ * Optional header keys: `kind: page` marks a whole document (HTML only, see [Kind]);
+ * `options NAME: a, b, c` offers a completion list for a variable declared above it.
  * The body is plain Bootstrap 5.3 HTML; the JSX version is derived from it by [JsxConverter].
  */
 data class TemplateSource(
@@ -56,7 +60,15 @@ data class TemplateSource(
                     key == "kind" -> kind = Kind.entries.firstOrNull { it.name.equals(value, ignoreCase = true) }
                         ?: error("kind must be 'component' or 'page' (got '$value')")
                     key.startsWith("var ") -> variables += Variable(key.removePrefix("var ").trim(), value)
-                    else -> error("unknown header key '$key' (expected 'description', 'kind' or 'var NAME')")
+                    key.startsWith("options ") -> {
+                        val target = key.removePrefix("options ").trim()
+                        val index = variables.indexOfFirst { it.name == target }
+                        require(index >= 0) { "options for '$target' must come after 'var $target'" }
+                        val options = value.split(',').map { it.trim() }.filter { it.isNotEmpty() }
+                        require(options.isNotEmpty()) { "options for '$target' are empty" }
+                        variables[index] = variables[index].copy(options = options)
+                    }
+                    else -> error("unknown header key '$key' (expected 'description', 'kind', 'var NAME' or 'options NAME')")
                 }
             }
 
@@ -69,6 +81,9 @@ data class TemplateSource(
                 require(VARIABLE_NAME.matches(it.name)) { "variable '${it.name}' must be UPPER_SNAKE_CASE" }
                 require(it.name !in PREDEFINED) { "\$${it.name}\$ is predefined, do not declare it" }
                 require('"' !in it.default && '\\' !in it.default) { "default of ${it.name} must not contain \" or \\" }
+                require(it.options.none { o -> '"' in o || '\\' in o }) { "options of ${it.name} must not contain \" or \\" }
+                require(it.options.size == it.options.toSet().size) { "options of ${it.name} have duplicates" }
+                require(it.options.isEmpty() || it.default in it.options) { "default of ${it.name} must be one of its options" }
             }
             val declared = variables.map { it.name }
             require(declared.size == declared.toSet().size) { "duplicate variable declaration" }
