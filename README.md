@@ -4,7 +4,7 @@ Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue in JetBrains IDEs
 
 | Group | Abbreviation | Inserts |
 |---|---|---|
-| Page | `bs5-starter` | Starter page with CSS, JS bundle and Bootstrap Icons from the CDN |
+| Page | `bs5-starter` | Starter page: semantic structure (header, main, footer), light or dark theme, CSS, JS bundle and Bootstrap Icons from the CDN — list: theme |
 | Layout | `bs5-col` | Responsive grid column (breakpoint and size) — list: breakpoint, size |
 | Layout | `bs5-container` | Container (fixed, fluid or responsive) — list: type |
 | Layout | `bs5-grid` | Grid: container, row with gutter and three equal columns — list: gap |

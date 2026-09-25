@@ -15,7 +15,8 @@
       <li><b>One template, every dialect:</b> in JSX/TSX you get <code>className</code>, <code>htmlFor</code>,
       self-closed tags, <code>style={{...}}</code> and numeric props like <code>tabIndex={-1}</code>.
       Every JSX template is type-checked with TypeScript and the React types.</li>
-      <li><b>Ready-to-use page:</b> <code>bs5-starter</code> creates a full HTML page with Bootstrap 5.3.8 CSS and JS
+      <li><b>Ready-to-use page:</b> <code>bs5-starter</code> creates a full HTML page with semantic structure
+      (<code>header</code>, <code>main</code>, <code>footer</code>), light or dark color mode, and Bootstrap 5.3.8 CSS and JS
       and Bootstrap Icons from the jsDelivr CDN, with integrity hashes.</li>
       <li><b>Pick instead of type:</b> colors, variants, placements and icons are offered as a completion list.</li>
       <li><b>Real photos:</b> cards and carousels use <a href="https://picsum.photos">picsum.photos</a> images
