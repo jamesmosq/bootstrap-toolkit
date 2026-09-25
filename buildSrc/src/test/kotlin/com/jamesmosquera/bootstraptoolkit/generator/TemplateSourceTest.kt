@@ -29,6 +29,17 @@ class TemplateSourceTest {
     }
 
     @Test
+    fun `options attach to a declared variable and must contain its default`() {
+        val withOptions = valid.replace("var VARIANT: primary\r\n", "var VARIANT: primary\r\noptions VARIANT: primary, danger\r\n")
+        assertEquals(listOf("primary", "danger"), TemplateSource.parse("bs5-btn", withOptions).variables.first().options)
+
+        fun fails(text: String) = assertThrows(IllegalArgumentException::class.java) { TemplateSource.parse("bs5-btn", text) }
+        fails(valid.replace("var VARIANT: primary\r\n", "options VARIANT: primary\r\nvar VARIANT: primary\r\n")) // before var
+        fails(withOptions.replace("primary, danger", "danger, dark")) // default not an option
+        fails(withOptions.replace("primary, danger", "primary, primary")) // duplicates
+    }
+
+    @Test
     fun `pages must be documents and documents must be pages`() {
         val page = "<!--\ndescription: Starter\nkind: page\n-->\n<!doctype html>\n<html>\$END\$</html>"
         assertEquals(Kind.PAGE, TemplateSource.parse("bs5-starter", page).kind)

@@ -38,7 +38,8 @@ object LiveTemplateXml {
             append("    <template name=\"${escape(template.name)}\" value=\"${escape(markup)}\"\n")
             append("              description=\"${escape(template.description + group.descriptionSuffix)}\" toReformat=\"false\" toShortenFQNames=\"false\">\n")
             template.variables.forEach {
-                append("        <variable name=\"${it.name}\" expression=\"\" defaultValue=\"${escape("\"${it.default}\"")}\" alwaysStopAt=\"true\"/>\n")
+                val expression = if (it.options.isEmpty()) "" else it.options.joinToString(",", "enum(", ")") { o -> "\"$o\"" }
+                append("        <variable name=\"${it.name}\" expression=\"${escape(expression)}\" defaultValue=\"${escape("\"${it.default}\"")}\" alwaysStopAt=\"true\"/>\n")
             }
             append("        <context>\n")
             group.contexts(template.kind).forEach { append("            <option name=\"$it\" value=\"true\"/>\n") }

@@ -91,14 +91,17 @@ class LiveTemplatesTest {
     }
 
     @Test
-    fun `cdn links pin one bootstrap version and carry an integrity hash`() {
-        val cdn = Regex("""(?:href|src)="(https://cdn\.jsdelivr\.net/npm/bootstrap@([^/]+)/[^"]+)"([^>]*)>""")
+    fun `cdn links pin one version per library and carry an integrity hash`() {
+        // Hashes were recomputed from the real files; bump version and hash together (see CLAUDE.md).
+        val pinned = mapOf("bootstrap" to "5.3.8", "bootstrap-icons" to "1.13.1")
+        val cdn = Regex("""(?:href|src)="(https://cdn\.jsdelivr\.net/npm/([a-z0-9-]+)@([^/]+)/[^"]+)"([^>]*)>""")
         val links = html.flatMap { t -> cdn.findAll(t.value).map { t.name to it } }
-        assertTrue("no Bootstrap CDN link found", links.isNotEmpty())
+        assertEquals("every pinned library is used", pinned.keys, links.map { it.second.groupValues[2] }.toSet())
         links.forEach { (name, m) ->
-            assertEquals("$name must use Bootstrap 5.3.8", "5.3.8", m.groupValues[2])
-            assertTrue("$name: ${m.groupValues[1]} needs integrity + crossorigin",
-                Regex("""integrity="sha384-[A-Za-z0-9+/=]+"""").containsMatchIn(m.groupValues[3]) && m.groupValues[3].contains("crossorigin="))
+            val (url, library, version, rest) = m.destructured
+            assertEquals("$name: $url must use $library ${pinned[library]}", pinned[library], version)
+            assertTrue("$name: $url needs integrity + crossorigin",
+                Regex("""integrity="sha384-[A-Za-z0-9+/=]+"""").containsMatchIn(rest) && rest.contains("crossorigin="))
         }
     }
 
