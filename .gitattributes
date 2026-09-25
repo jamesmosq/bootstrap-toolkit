@@ -1,0 +1,2 @@
+# Byte-exact copies of CDN files: their SRI hashes are tested, never convert line endings.
+src/test/resources/vendor/** -text
