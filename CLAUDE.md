@@ -58,6 +58,13 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
   (`curl -sL URL | openssl dgst -sha384 -binary | openssl base64 -A`). Redo both when bumping the version.
 - Icons: Bootstrap Icons (`<i class="bi bi-NAME" aria-hidden="true">`). Every name in `bs5-icon` options was
   checked against the 1.13.1 stylesheet. Heroicons (SVG only, no CDN font) is deferred to the generator dialog.
+- Automatic checks (all in CI): `LiveTemplatesTest` (rules), `BootstrapAssetsTest` (every class of every
+  template AND every `options` value exists in the pinned Bootstrap/Icons CSS; SRI hashes recomputed from
+  the vendored copies in `src/test/resources/vendor/<pkg>@<ver>/...`), `tools/tsx-check` (every JSX template
+  and option compiles with TypeScript 5 + @types/react 19). A new class or CDN file needs no manual check.
+- Markup source: the official docs sources at the pinned tag, e.g.
+  `https://raw.githubusercontent.com/twbs/bootstrap/v5.3.8/site/src/content/docs/components/<name>.mdx`
+  (same content as getbootstrap.com/docs/5.3, exact version).
 - Images: use https://picsum.photos, never `holder.js` or `via.placeholder.com` (tests enforce this).
 - Anything copied from anburocky3/bootstrap5-snippets (MIT, (c) 2021 Anbuselvan Annamalai) requires his
   copyright + MIT notice in `THIRD_PARTY_NOTICES.md` and a credit in the README. Create the file the
@@ -73,6 +80,7 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
 ./gradlew build          # compile + tests
 ./gradlew check          # plugin guard tests (generated XML)
 ./gradlew -p buildSrc test  # generator unit tests
+npm ci --prefix tools/tsx-check && npm --prefix tools/tsx-check run check   # TSX type check (after check/build)
 ./gradlew verifyPlugin   # JetBrains Plugin Verifier (must pass before any release)
 ./gradlew runIde         # sandbox IDE for manual testing
 ./gradlew buildPlugin    # build/distributions/*.zip
@@ -93,8 +101,8 @@ Run `signPlugin` and `verifyPluginSignature` in separate invocations.
 ## Next steps
 1. ~~Confirm templates expand in .html, .jsx, .tsx and Vue~~ — done 2026-09-24 (WebStorm 2026.2).
 2. ~~Single data source for templates~~ — done: `src/templates` + buildSrc generator.
-3. Automate two checks done by hand so far: (a) every class an `options` list can produce exists in the
-   pinned bootstrap.min.css (all do as of 5.3.8); (b) the TSX type check: it was done by hand once (typescript 5 + @types/react 19,
-   `tsc --noEmit --strict --jsx react-jsx` over every JSX template with defaults filled in) and caught
-   `tabIndex="-1"` (must be `{-1}`). Make it a Gradle/CI step so every new template is compiled.
-4. Grow coverage (components, 5.3 utilities, full-page starters), then the generator dialog.
+3. ~~Automate the class, SRI and TSX checks~~ — done (BootstrapAssetsTest + tools/tsx-check in CI).
+4. Grow coverage: dropdown, tabs, carousel (picsum), toast, spinner, pagination, breadcrumb; 5.3 utilities.
+5. Prepare the first Marketplace release (name check, description, screenshots, verifyPlugin).
+6. Owner's idea (2026-09-24), after the Bootstrap work: live templates for **CSS** files too.
+7. Generator dialog (Heroicons search/insert fits here).
