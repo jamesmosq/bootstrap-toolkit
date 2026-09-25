@@ -1,6 +1,6 @@
 # Bootstrap Toolkit
 
-Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue in JetBrains IDEs. **Work in progress.**
+Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue in JetBrains IDEs (2025.2 and later).
 
 | Abbreviation | Inserts |
 |---|---|
@@ -39,7 +39,9 @@ Every template works in HTML and Vue (`class`) and in JSX/TSX (`className`, `htm
 Type the abbreviation and press <kbd>Tab</kbd>. Start a new `.html` file with `bs5-starter` and every other
 template renders styled right away.
 
-Unofficial plugin, not affiliated with the Bootstrap project.
+Unofficial plugin, not affiliated with or endorsed by the Bootstrap team. Template markup is adapted from the
+[Bootstrap documentation](https://getbootstrap.com/docs/5.3/) (CC BY 3.0); Bootstrap and Bootstrap Icons are MIT.
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 Built on the [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template).
 
 ---

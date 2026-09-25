@@ -17,6 +17,14 @@ class LiveTemplatesTest {
     private val components = html.filterNot { it.isPage }
 
     @Test
+    fun `plugin description lists every template`() {
+        val pluginXml = javaClass.getResourceAsStream("/META-INF/plugin.xml")!!.use { it.readBytes().decodeToString() }
+        val description = pluginXml.substringAfter("<description>").substringBefore("</description>")
+        val missing = html.map { it.name }.filter { "<code>${it}</code>" !in description }
+        assertTrue("add to the plugin.xml description: $missing", missing.isEmpty())
+    }
+
+    @Test
     fun `groups are not empty`() {
         assertTrue(html.isNotEmpty())
         assertTrue(jsx.isNotEmpty())

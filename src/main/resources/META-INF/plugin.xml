@@ -5,9 +5,51 @@
     <name>Bootstrap Toolkit</name>
     <vendor email="jamesmosqr@gmail.com" url="https://www.jamesmosquera.com">James Mosquera</vendor>
 
+    <!-- LiveTemplatesTest checks that every template abbreviation is listed here. -->
     <description><![CDATA[
-    <p>Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue. Work in progress.</p>
-    <p>Unofficial plugin, not affiliated with the Bootstrap project.</p>
+    <p>Bootstrap 5.3 live templates that work in <b>HTML</b>, <b>React (JSX/TSX)</b> and <b>Vue</b> templates.
+    Type an abbreviation such as <code>bs5-card</code> and press <kbd>Tab</kbd>.</p>
+
+    <h3>Features</h3>
+    <ul>
+      <li><b>One template, every dialect:</b> in JSX/TSX you get <code>className</code>, <code>htmlFor</code>,
+      self-closed tags, <code>style={{...}}</code> and numeric props like <code>tabIndex={-1}</code>.
+      Every JSX template is type-checked with TypeScript and the React types.</li>
+      <li><b>Ready-to-use page:</b> <code>bs5-starter</code> creates a full HTML page with Bootstrap 5.3.8 CSS and JS
+      and Bootstrap Icons from the jsDelivr CDN, with integrity hashes.</li>
+      <li><b>Pick instead of type:</b> colors, variants, placements and icons are offered as a completion list.</li>
+      <li><b>Real photos:</b> cards and carousels use <a href="https://picsum.photos">picsum.photos</a> images
+      instead of script-dependent placeholders.</li>
+      <li>Only Bootstrap 5.3 markup, taken from the official documentation. No Bootstrap 4 classes.</li>
+    </ul>
+
+    <h3>Templates</h3>
+    <ul>
+      <li><b>Page:</b> <code>bs5-starter</code> (HTML files)</li>
+      <li><b>Layout and navigation:</b> <code>bs5-navbar</code>, <code>bs5-footer</code>, <code>bs5-offcanvas</code>,
+      <code>bs5-tabs</code>, <code>bs5-breadcrumb</code>, <code>bs5-pagination</code>, <code>bs5-dropdown</code></li>
+      <li><b>Content:</b> <code>bs5-card</code>, <code>bs5-carousel</code>, <code>bs5-accordion</code>,
+      <code>bs5-collapse</code>, <code>bs5-table</code>, <code>bs5-list-group</code></li>
+      <li><b>Buttons and feedback:</b> <code>bs5-btn</code>, <code>bs5-btn-group</code>, <code>bs5-alert</code>,
+      <code>bs5-badge</code>, <code>bs5-modal</code>, <code>bs5-toast</code>, <code>bs5-spinner</code>,
+      <code>bs5-progress</code>, <code>bs5-popover</code>, <code>bs5-tooltip</code></li>
+      <li><b>Forms:</b> <code>bs5-form</code>, <code>bs5-input-group</code>, <code>bs5-floating</code></li>
+      <li><b>Icons:</b> <code>bs5-icon</code> (Bootstrap Icons)</li>
+    </ul>
+
+    <h3>Usage</h3>
+    <p>Type the abbreviation and press <kbd>Tab</kbd>; press <kbd>Tab</kbd> again to move between the editable
+    fields. <kbd>Ctrl+J</kbd> / <kbd>⌘J</kbd> lists all templates. Customize them under
+    <i>Settings | Editor | Live Templates | Bootstrap Toolkit</i>.</p>
+
+    <h3>Privacy</h3>
+    <p>The plugin collects no data and makes no network requests. The inserted markup links to jsDelivr and
+    picsum.photos, which your browser loads when you open the page.</p>
+
+    <p>Unofficial plugin, not affiliated with or endorsed by the Bootstrap team. Bootstrap and Bootstrap Icons are
+    by the Bootstrap Authors (MIT); template markup is adapted from the
+    <a href="https://getbootstrap.com/docs/5.3/">Bootstrap documentation</a> (CC BY 3.0).
+    Source code: <a href="https://github.com/jamesmosq/bootstrap-toolkit">github.com/jamesmosq/bootstrap-toolkit</a>.</p>
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
