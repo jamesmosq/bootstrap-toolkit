@@ -98,12 +98,32 @@ Run `signPlugin` and `verifyPluginSignature` in separate invocations.
 - `src/main/resources/META-INF/plugin.xml`, `pluginIcon*.svg`
 - `src/test/kotlin/.../LiveTemplatesTest.kt` — XML guard tests (BS4 syntax, className, HTML/JSX parity, dead placeholders)
 
-## Next steps
-1. ~~Confirm templates expand in .html, .jsx, .tsx and Vue~~ — done 2026-09-24 (WebStorm 2026.2).
-2. ~~Single data source for templates~~ — done: `src/templates` + buildSrc generator.
-3. ~~Automate the class, SRI and TSX checks~~ — done (BootstrapAssetsTest + tools/tsx-check in CI).
-4. ~~Component coverage~~ — all main Bootstrap 5.3 components done (27). Open: 5.3 utilities (verify first),
-   maybe more page starters (login, dashboard) and a starter option that initializes tooltips/popovers.
-5. Prepare the first Marketplace release (name check, description, screenshots, verifyPlugin).
-6. Owner's idea (2026-09-24), after the Bootstrap work: live templates for **CSS** files too.
-7. Generator dialog (Heroicons search/insert fits here).
+## Naming convention (owner, 2026-09-24)
+One prefix per technology, so typing the prefix + Ctrl+J lists that family: `bs5-` Bootstrap (done),
+`css-` CSS, and likewise for the next ones (e.g. `vue-`, `ts-`). The **context** decides where a template
+appears, so the same prefix can live in HTML, JSX and CSS files. Rule of value: a template must carry
+knowledge the IDE/Emmet does not already give (no generic filler).
+
+## Work order (by technology)
+Done: single source + generator, 27 components + starter, automatic class/SRI/TSX checks, verifyPlugin
+(Compatible on 252, 253, 261, 262, 263 — 2026-09-24).
+
+1. **Bootstrap `bs5-` — release 0.1.0.** Blocked on owner decisions: plugin name/scope (see open question),
+   signing keys (reuse photo-placeholders' or new), screenshots/GIF. Re-run verifyPlugin on the final zip.
+2. **Bootstrap in CSS (`bs5-` in CSS contexts) — 0.2.0.** New `kind: css` in the generator (no JSX group).
+   Contexts exist in 2025.2: `CSS`, `CSS_RULESET_LIST`, `CSS_DECLARATION_BLOCK`, `CSS_PROPERTY_VALUE`
+   (no SCSS/Less ids; Vue `<style>` and .scss inheriting them is UNVERIFIED). Content: component recolor via
+   component vars (`--bs-btn-*`; changing `--bs-primary` does NOT recolor `.btn-primary`), `[data-bs-theme=dark]`
+   block, breakpoint media queries (576/768/992/1200/1400), Vue scoped `:deep(.btn)`. Plus a dark-mode option in
+   `bs5-starter`. Test: every `--bs-*` var used exists in the vendored CSS (449 defined in 5.3.8).
+3. **Bootstrap JS/TS (`bs5-` in JS/TS/Vue script contexts).** `import { Modal } from 'bootstrap'` +
+   `getOrCreateInstance`, React `useEffect` (with `dispose()` cleanup), Vue `onMounted`. Verify context ids
+   (`JAVA_SCRIPT`, `TypeScript`, `VUE_SCRIPT`) first. Bootstrap ships no TS types; `@types/bootstrap` is 5.2.11.
+4. **Modern CSS (`css-`).** Only what Emmet lacks: container queries, `:has()`, fluid `clamp()` type, grid
+   `auto-fit`, `prefers-color-scheme` / `prefers-reduced-motion`, logical properties.
+5. **Other technologies (`vue-`, `ts-`, ...)** — only after deciding whether they belong in this plugin.
+6. Generator dialog (Heroicons search/insert fits here).
+
+Open question (owner): the name "Bootstrap Toolkit" fits steps 1-3; `css-`/`vue-`/`ts-` families would need a
+broader name (the id `com.jamesmosquera.bootstraptoolkit` cannot change) or a separate plugin. Decide before
+publishing 0.1.0 if the name should change.

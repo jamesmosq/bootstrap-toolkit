@@ -4,5 +4,9 @@ var TITLE: Popover title
 var CONTENT: And here's some amazing content.
 var BUTTON: Click to toggle popover
 -->
-<!-- Initialize once: document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => new bootstrap.Popover(el)) -->
+<!-- Popovers must be initialized with JavaScript.
+     CDN (bs5-starter), in a script after Bootstrap:
+       document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => bootstrap.Popover.getOrCreateInstance(el))
+     npm: import { Popover } from 'bootstrap' and call Popover.getOrCreateInstance(element) once the element
+     is rendered (React: useEffect, Vue: onMounted); call dispose() on it when the element is removed. -->
 <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" data-bs-title="$TITLE$" data-bs-content="$CONTENT$">$BUTTON$</button>

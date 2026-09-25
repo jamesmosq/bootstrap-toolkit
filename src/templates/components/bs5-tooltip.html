@@ -5,5 +5,9 @@ options PLACEMENT: top, right, bottom, left
 var TITLE: Tooltip on top
 var BUTTON: Hover me
 -->
-<!-- Initialize once: document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el)) -->
+<!-- Tooltips must be initialized with JavaScript.
+     CDN (bs5-starter), in a script after Bootstrap:
+       document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => bootstrap.Tooltip.getOrCreateInstance(el))
+     npm: import { Tooltip } from 'bootstrap' and call Tooltip.getOrCreateInstance(element) once the element
+     is rendered (React: useEffect, Vue: onMounted); call dispose() on it when the element is removed. -->
 <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="$PLACEMENT$" data-bs-title="$TITLE$">$BUTTON$</button>

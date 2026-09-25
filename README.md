@@ -29,8 +29,8 @@ Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue in JetBrains IDEs
 | `bs5-btn-group` | Button group, with a list of colors |
 | `bs5-input-group` | Input with a text addon |
 | `bs5-floating` | Floating labels for email and password |
-| `bs5-popover` | Popover button (includes the one-line JavaScript to enable popovers) |
-| `bs5-tooltip` | Tooltip button (includes the one-line JavaScript to enable tooltips) |
+| `bs5-popover` | Popover button (with how to enable it from the CDN or npm: React, Vue) |
+| `bs5-tooltip` | Tooltip button (with how to enable it from the CDN or npm: React, Vue) |
 | `bs5-icon` | Bootstrap Icons icon, with a list of common icons to pick from |
 
 Every template works in HTML and Vue (`class`) and in JSX/TSX (`className`, `htmlFor`, self-closed tags,
