@@ -34,12 +34,22 @@ class BootstrapAssetsTest {
      */
     private val jsOnlyClasses = setOf("slide")
 
+    /** Hook classes of the Bootstrap docs example scripts (vendored), e.g. `needs-validation` for form validation. */
+    private val docsScriptClasses = mapOf("needs-validation" to "bootstrap-docs@5.3.8/validate-forms.js")
+
     @Test
     fun `js-only classes are really used by the bootstrap bundle`() {
         val bundle = templates.flatMap { t -> cdnLink.findAll(t.value).map { it.groupValues[1] } }.single { it.endsWith("bootstrap.bundle.min.js") }
         val js = requireNotNull(vendored(bundle)).decodeToString()
         jsOnlyClasses.forEach { assertTrue("'$it' is not referenced by $bundle", js.contains("classList.contains(\"$it\")")) }
     }
+
+    @Test
+    fun `docs script hook classes are really used by the docs scripts`() =
+        docsScriptClasses.forEach { (cls, script) ->
+            val js = requireNotNull(vendored(script)) { "missing vendored $script" }.decodeToString()
+            assertTrue("'$cls' is not used by $script", js.contains("'.$cls'"))
+        }
 
     @Test
     fun `integrity hashes match the files served by the cdn`() {
@@ -59,7 +69,7 @@ class BootstrapAssetsTest {
         val classAttribute = Regex("""\sclass="([^"]*)"""")
         val unknown = templates.flatMap { t ->
             t.expansions().flatMap { markup -> classAttribute.findAll(markup).flatMap { it.groupValues[1].split(Regex("\\s+")) } }
-                .filter { it.isNotEmpty() && it !in knownClasses && it !in jsOnlyClasses }
+                .filter { it.isNotEmpty() && it !in knownClasses && it !in jsOnlyClasses && it !in docsScriptClasses }
                 .map { "${t.name}: .$it" }
         }.distinct()
         assertTrue("classes not defined by Bootstrap 5.3.8 / Bootstrap Icons 1.13.1:\n${unknown.joinToString("\n")}", unknown.isEmpty())

@@ -1,6 +1,8 @@
 <!--
 description: Bootstrap 5 modal with its trigger button
 var ID: exampleModal
+var DIALOG: modal-dialog-centered
+options DIALOG: modal-dialog-centered, modal-dialog-scrollable, modal-sm, modal-lg, modal-xl, modal-fullscreen
 var BUTTON: Launch demo modal
 var TITLE: Modal title
 var BODY: Modal body text goes here.
@@ -11,7 +13,7 @@ var BODY: Modal body text goes here.
 </button>
 <!-- Modal -->
 <div class="modal fade" id="$ID$" tabindex="-1" aria-labelledby="$ID$Label" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog $DIALOG$">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="$ID$Label">$TITLE$</h1>

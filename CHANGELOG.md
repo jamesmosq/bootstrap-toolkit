@@ -6,7 +6,7 @@
 
 ### Added
 
-- 27 Bootstrap 5.3 component live templates (`bs5-btn`, `bs5-card`, `bs5-navbar`, `bs5-modal`, `bs5-form`, `bs5-carousel`, `bs5-offcanvas` and more) for HTML and Vue (`class`) and for JSX/TSX (`className`, `htmlFor`, self-closed tags, style objects, numeric props).
+- 50 Bootstrap 5.3 live templates covering layout (grid, containers, stacks), components (navbar, card, modal, carousel, offcanvas, scrollspy, placeholders and more), forms (validation, select, checks, radios, switches, range, grid forms) and content (responsive images, figures, ratio embeds, display headings, blockquotes) for HTML and Vue (`class`) and for JSX/TSX (`className`, `htmlFor`, self-closed tags, style objects, numeric props).
 - `bs5-starter`: a full HTML page with Bootstrap 5.3.8 CSS and JS and Bootstrap Icons 1.13.1 from jsDelivr, with integrity hashes.
-- Completion lists for colors, variants, placements and icons (`bs5-icon` offers common Bootstrap Icons).
-- Real photos from picsum.photos in `bs5-card` and `bs5-carousel`; `bs5-footer` fills in the current year.
+- Completion lists for colors, variants, sizes, breakpoints, placements and icons (e.g. modal size and position, navbar light/dark theme, `bs5-icon` with common Bootstrap Icons).
+- Real, stable photos from picsum.photos in cards, carousel, images and figures; `bs5-footer` fills in the current year.

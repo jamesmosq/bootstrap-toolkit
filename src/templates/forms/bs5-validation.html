@@ -1,0 +1,52 @@
+<!--
+description: Bootstrap 5 form with custom validation styles and feedback messages
+-->
+<!-- Needs JavaScript (Bootstrap docs example): for each form in document.querySelectorAll('.needs-validation'),
+     on submit: if (!form.checkValidity()) { event.preventDefault(); event.stopPropagation() }
+     then form.classList.add('was-validated'). In React or Vue, do the same in the form's submit handler. -->
+<form class="row g-3 needs-validation" novalidate>
+  <div class="col-md-6">
+    <label for="validationName" class="form-label">Name</label>
+    <input type="text" class="form-control" id="validationName" required>
+    <div class="valid-feedback">
+      Looks good!
+    </div>
+    <div class="invalid-feedback">
+      Please enter your name.
+    </div>
+  </div>
+  <div class="col-md-6">
+    <label for="validationEmail" class="form-label">Email</label>
+    <div class="input-group has-validation">
+      <span class="input-group-text" id="validationEmailPrepend">@</span>
+      <input type="email" class="form-control" id="validationEmail" aria-describedby="validationEmailPrepend" required>
+      <div class="invalid-feedback">
+        Please enter a valid email.
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <label for="validationCountry" class="form-label">Country</label>
+    <select class="form-select" id="validationCountry" required>
+      <option value="">Choose...</option>
+      <option>...</option>
+    </select>
+    <div class="invalid-feedback">
+      Please select a valid country.
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="validationTerms" required>
+      <label class="form-check-label" for="validationTerms">
+        Agree to terms and conditions
+      </label>
+      <div class="invalid-feedback">
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Submit form</button>
+  </div>
+</form>

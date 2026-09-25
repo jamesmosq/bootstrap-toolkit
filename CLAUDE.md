@@ -6,7 +6,7 @@ Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugi
 Sister project (same build setup, already on the Marketplace): `../photo-placeholders`.
 
 ## Status — read first
-- 27 components + 1 page (`bs5-starter`), generated into 2 dialects (HTML, JSX).
+- 50 templates + 1 page (`bs5-starter`), sources grouped like the docs: `src/templates/{pages,layout,components,content,forms}`, generated into 2 dialects (HTML, JSX).
   See README for the list.
   No plugin Kotlin code yet; the only Kotlin is the build-time generator in `buildSrc`.
 - **Verified manually (2026-09-24)** in WebStorm 2026.2 with the zip installed from disk: `bs5-btn` /
@@ -58,6 +58,8 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
   (`curl -sL URL | openssl dgst -sha384 -binary | openssl base64 -A`). Redo both when bumping the version.
 - Icons: Bootstrap Icons (`<i class="bi bi-NAME" aria-hidden="true">`). Every name in `bs5-icon` options was
   checked against the 1.13.1 stylesheet. Heroicons (SVG only, no CDN font) is deferred to the generator dialog.
+- Classes without a CSS rule are only allowed when verified: Bootstrap JS hooks (`slide`, checked in the vendored
+  bundle) and docs-script hooks (`needs-validation`, checked in the vendored `validate-forms.js`).
 - Automatic checks (all in CI): `LiveTemplatesTest` (rules), `BootstrapAssetsTest` (every class of every
   template AND every `options` value exists in the pinned Bootstrap/Icons CSS; SRI hashes recomputed from
   the vendored copies in `src/test/resources/vendor/<pkg>@<ver>/...`), `tools/tsx-check` (every JSX template
@@ -105,7 +107,11 @@ appears, so the same prefix can live in HTML, JSX and CSS files. Rule of value: 
 knowledge the IDE/Emmet does not already give (no generic filler).
 
 ## Work order (by technology)
-Done: single source + generator, 27 components + starter, automatic class/SRI/TSX checks, verifyPlugin
+Coverage audit vs. Bootstrap 5.3.8 docs (2026-09-24): components 24/24 pages (close button, placeholders,
+scrollspy added), forms 9/9 applicable, layout grid/containers/stacks, content images/figures/typography,
+helpers ratio/stretched-link/icon-link. Not covered on purpose: utilities (single classes, no template
+value), RTL, Sass; page examples (sign-in, pricing, heroes, album, dashboard...) and color modes are 0.2.0.
+Done: single source + generator, 50 templates + starter, automatic class/SRI/TSX checks, verifyPlugin
 (Compatible on 252, 253, 261, 262, 263 — 2026-09-24).
 
 1. **Bootstrap `bs5-` — release 0.1.0.** Blocked on owner decisions: plugin name/scope (see open question),

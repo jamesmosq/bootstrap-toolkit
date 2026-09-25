@@ -11,3 +11,6 @@ then delete the old folder.
   https://github.com/twbs/bootstrap/blob/v5.3.8/LICENSE
 - `bootstrap-icons@1.13.1` — Bootstrap Icons, (c) 2019-2024 The Bootstrap Authors, MIT License,
   https://github.com/twbs/icons/blob/v1.13.1/LICENSE
+- `bootstrap-docs@5.3.8/validate-forms.js` — the form validation example script of the Bootstrap docs
+  (`site/static/docs/[version]/assets/js/validate-forms.js` at tag v5.3.8), (c) The Bootstrap Authors,
+  docs licensed CC BY 3.0. Used to verify that `needs-validation` is the hook class the docs script expects.

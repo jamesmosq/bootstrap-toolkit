@@ -26,14 +26,11 @@
     <h3>Templates</h3>
     <ul>
       <li><b>Page:</b> <code>bs5-starter</code> (HTML files)</li>
-      <li><b>Layout and navigation:</b> <code>bs5-navbar</code>, <code>bs5-footer</code>, <code>bs5-offcanvas</code>,
-      <code>bs5-tabs</code>, <code>bs5-breadcrumb</code>, <code>bs5-pagination</code>, <code>bs5-dropdown</code></li>
-      <li><b>Content:</b> <code>bs5-card</code>, <code>bs5-carousel</code>, <code>bs5-accordion</code>,
-      <code>bs5-collapse</code>, <code>bs5-table</code>, <code>bs5-list-group</code></li>
-      <li><b>Buttons and feedback:</b> <code>bs5-btn</code>, <code>bs5-btn-group</code>, <code>bs5-alert</code>,
-      <code>bs5-badge</code>, <code>bs5-modal</code>, <code>bs5-toast</code>, <code>bs5-spinner</code>,
-      <code>bs5-progress</code>, <code>bs5-popover</code>, <code>bs5-tooltip</code></li>
-      <li><b>Forms:</b> <code>bs5-form</code>, <code>bs5-input-group</code>, <code>bs5-floating</code></li>
+      <li><b>Layout:</b> <code>bs5-container</code>, <code>bs5-grid</code>, <code>bs5-col</code>, <code>bs5-row-cols</code>, <code>bs5-stack</code></li>
+      <li><b>Navigation:</b> <code>bs5-navbar</code>, <code>bs5-footer</code>, <code>bs5-offcanvas</code>, <code>bs5-tabs</code>, <code>bs5-breadcrumb</code>, <code>bs5-pagination</code>, <code>bs5-dropdown</code>, <code>bs5-scrollspy</code></li>
+      <li><b>Content:</b> <code>bs5-card</code>, <code>bs5-card-header</code>, <code>bs5-card-link</code>, <code>bs5-carousel</code>, <code>bs5-accordion</code>, <code>bs5-collapse</code>, <code>bs5-table</code>, <code>bs5-list-group</code>, <code>bs5-img</code>, <code>bs5-figure</code>, <code>bs5-ratio</code>, <code>bs5-display</code>, <code>bs5-blockquote</code>, <code>bs5-icon-link</code></li>
+      <li><b>Buttons and feedback:</b> <code>bs5-btn</code>, <code>bs5-btn-group</code>, <code>bs5-close</code>, <code>bs5-alert</code>, <code>bs5-badge</code>, <code>bs5-modal</code>, <code>bs5-toast</code>, <code>bs5-spinner</code>, <code>bs5-progress</code>, <code>bs5-placeholder</code>, <code>bs5-popover</code>, <code>bs5-tooltip</code></li>
+      <li><b>Forms:</b> <code>bs5-form</code>, <code>bs5-form-grid</code>, <code>bs5-validation</code>, <code>bs5-input-group</code>, <code>bs5-floating</code>, <code>bs5-select</code>, <code>bs5-check</code>, <code>bs5-radio</code>, <code>bs5-switch</code>, <code>bs5-range</code></li>
       <li><b>Icons:</b> <code>bs5-icon</code> (Bootstrap Icons)</li>
     </ul>
 
