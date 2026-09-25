@@ -1,0 +1,13 @@
+{
+  "name": "bootstrap-toolkit-tsx-check",
+  "private": true,
+  "description": "Type-checks the generated JSX/TSX live templates with TypeScript and @types/react.",
+  "type": "module",
+  "scripts": {
+    "check": "node check.mjs"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "typescript": "^5.9.0"
+  }
+}

@@ -4,8 +4,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.w3c.dom.Element
-import javax.xml.parsers.DocumentBuilderFactory
 
 /**
  * Guards the rules in CLAUDE.md on the XML generated from src/templates (see buildSrc).
@@ -13,42 +11,10 @@ import javax.xml.parsers.DocumentBuilderFactory
  */
 class LiveTemplatesTest {
 
-    private class Tpl(
-        val name: String,
-        val value: String,
-        val description: String,
-        val contexts: Set<String>,
-        val variables: List<String>,
-    )
-
-    private fun load(resource: String): List<Tpl> {
-        val stream = javaClass.getResourceAsStream(resource) ?: error("missing resource $resource")
-        val doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream)
-        val templates = doc.getElementsByTagName("template")
-        return (0 until templates.length).map { i ->
-            val e = templates.item(i) as Element
-            val options = e.getElementsByTagName("option")
-            Tpl(
-                name = e.getAttribute("name"),
-                value = e.getAttribute("value"),
-                description = e.getAttribute("description"),
-                contexts = (0 until options.length).map { j -> options.item(j) as Element }
-                    .filter { it.getAttribute("value") == "true" }
-                    .map { it.getAttribute("name") }
-                    .toSet(),
-                variables = e.getElementsByTagName("variable").let { vars ->
-                    (0 until vars.length).map { j -> (vars.item(j) as Element).let { v -> "${v.getAttribute("name")}=${v.getAttribute("defaultValue")}" } }
-                },
-            )
-        }
-    }
-
-    private val html = load("/liveTemplates/BootstrapToolkitHtml.xml")
-    private val jsx = load("/liveTemplates/BootstrapToolkitJsx.xml")
-
-    /** Whole documents (`<!doctype html>`): HTML only, no JSX counterpart. */
-    private val pages = html.filter { it.value.trimStart().startsWith("<!doctype", ignoreCase = true) }
-    private val components = html - pages.toSet()
+    private val html = GeneratedTemplates.html
+    private val jsx = GeneratedTemplates.jsx
+    private val pages = html.filter { it.isPage }
+    private val components = html.filterNot { it.isPage }
 
     @Test
     fun `groups are not empty`() {

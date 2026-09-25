@@ -12,3 +12,6 @@ build
 *.key
 password.txt
 chain.crt
+
+# tools/tsx-check dependencies
+node_modules/
