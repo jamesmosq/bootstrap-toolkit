@@ -55,7 +55,12 @@ class JsxConverterTest {
     @Test
     fun `numeric props become number expressions for TSX, non-numeric values stay strings`() {
         assertEquals("""<td colSpan={2} className="x"></td>""", jsx("""<td colspan="2" class="x"></td>"""))
-        assertEquals("<div tabIndex=\"\$N\$\"></div>", jsx("<div tabindex=\"\$N\$\"></div>"))
+        assertEquals("<div tabIndex={\$N\$}></div>", jsx("<div tabindex=\"\$N\$\"></div>"))
+        assertEquals("<div tabIndex=\"x-\$N\$\"></div>", jsx("<div tabindex=\"x-\$N\$\"></div>"))
+        assertEquals(
+            "<div aria-valuenow={\$V\$} aria-valuemin={0} aria-label=\"1\"></div>",
+            jsx("<div aria-valuenow=\"\$V\$\" aria-valuemin=\"0\" aria-label=\"1\"></div>"),
+        )
     }
 
     @Test

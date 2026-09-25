@@ -6,7 +6,7 @@ Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugi
 Sister project (same build setup, already on the Marketplace): `../photo-placeholders`.
 
 ## Status — read first
-- Early prototype: 18 components + 1 page (`bs5-starter`), generated into 2 dialects (HTML, JSX).
+- 27 components + 1 page (`bs5-starter`), generated into 2 dialects (HTML, JSX).
   See README for the list.
   No plugin Kotlin code yet; the only Kotlin is the build-time generator in `buildSrc`.
 - **Verified manually (2026-09-24)** in WebStorm 2026.2 with the zip installed from disk: `bs5-btn` /
@@ -102,8 +102,8 @@ Run `signPlugin` and `verifyPluginSignature` in separate invocations.
 1. ~~Confirm templates expand in .html, .jsx, .tsx and Vue~~ — done 2026-09-24 (WebStorm 2026.2).
 2. ~~Single data source for templates~~ — done: `src/templates` + buildSrc generator.
 3. ~~Automate the class, SRI and TSX checks~~ — done (BootstrapAssetsTest + tools/tsx-check in CI).
-4. Grow coverage: offcanvas, list group, progress, collapse, button group, input group, floating labels,
-   popover/tooltip (need JS init), 5.3 utilities.
+4. ~~Component coverage~~ — all main Bootstrap 5.3 components done (27). Open: 5.3 utilities (verify first),
+   maybe more page starters (login, dashboard) and a starter option that initializes tooltips/popovers.
 5. Prepare the first Marketplace release (name check, description, screenshots, verifyPlugin).
 6. Owner's idea (2026-09-24), after the Bootstrap work: live templates for **CSS** files too.
 7. Generator dialog (Heroicons search/insert fits here).

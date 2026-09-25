@@ -11,5 +11,6 @@
 - `bs5-btn` and `bs5-alert` offer the Bootstrap colors as a completion list.
 - Live templates `bs5-badge`, `bs5-table`, `bs5-accordion` and `bs5-footer` (fills in the current year).
 - Live templates `bs5-dropdown`, `bs5-tabs`, `bs5-carousel` (real picsum.photos photos), `bs5-toast`, `bs5-spinner`, `bs5-pagination` and `bs5-breadcrumb`.
+- Live templates `bs5-offcanvas`, `bs5-collapse`, `bs5-list-group`, `bs5-progress`, `bs5-btn-group`, `bs5-input-group`, `bs5-floating`, `bs5-popover` and `bs5-tooltip`.
 - Live template `bs5-icon`: a Bootstrap Icons icon with a completion list of common icons.
 - Live templates `bs5-card` (with a real picsum.photos image), `bs5-navbar`, `bs5-modal` and `bs5-form`.

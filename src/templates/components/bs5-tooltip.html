@@ -1,0 +1,9 @@
+<!--
+description: Bootstrap 5 tooltip button (tooltips must be initialized with JavaScript)
+var PLACEMENT: top
+options PLACEMENT: top, right, bottom, left
+var TITLE: Tooltip on top
+var BUTTON: Hover me
+-->
+<!-- Initialize once: document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el)) -->
+<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="$PLACEMENT$" data-bs-title="$TITLE$">$BUTTON$</button>
