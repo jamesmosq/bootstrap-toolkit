@@ -1,4 +1,4 @@
-import com.jamesmosquera.bootstraptoolkit.build.GenerateLiveTemplates
+import com.jamesmosquera.bootstraptoolkit.generator.GenerateLiveTemplates
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {

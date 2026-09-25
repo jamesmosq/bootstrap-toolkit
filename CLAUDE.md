@@ -41,6 +41,8 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
   fails with the file name — fix the source, don't special-case the converter.
 - Source format: header `<!-- description: ...  /  var NAME: default -->` (var order = Tab order), then the
   body. Every `$VAR$` used must be declared and vice versa; `$END$` is appended if missing.
+- Never name a source directory or package `build`: `.gitignore` ignores every `build` path, so the files
+  silently stay out of git (this happened once with the generator package).
 - Multi-line templates are not yet tested in an IDE (indentation on expansion, `toReformat`) — verify
   with the first one.
 - Context ids that exist in IDEA 2025.2 (verified): `HTML`, `HTML_TEXT`, `JSX_HTML` (base JAVA_SCRIPT),
