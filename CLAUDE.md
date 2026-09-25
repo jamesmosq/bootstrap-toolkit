@@ -1,0 +1,67 @@
+# CLAUDE.md — Bootstrap Toolkit
+
+JetBrains IDE plugin (Kotlin) with Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue,
+planned to grow into a component generator dialog.
+Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugin Template.
+Sister project (same build setup, already on the Marketplace): `../photo-placeholders`.
+
+## Status — read first
+- Early prototype: 2 components (`bs5-btn`, `bs5-alert`) x 2 dialects (HTML, JSX). No Kotlin code yet.
+- **Never run in a real IDE.** Only the XML guard tests exist. Whether the templates actually expand
+  inside JSX/TSX/Vue in `runIde` is UNVERIFIED — check that first.
+
+## Why this plugin exists (research, Sep 2026)
+- Reference: VS Code "Bootstrap 5 Quick Snippets" (anburocky3/bootstrap5-snippets, MIT, 177 snippets).
+- Existing JetBrains options are stale: "Bootstrap 5 Templates" (id 18750, 145 templates) declares
+  `until-build 253.*` (not installable on 2026.x) and only enables the `HTML` and `PHP` contexts, so it
+  does not work in JSX. "Bootstrap 4 ..." (id 9341) was last updated in 2019.
+- Defects of the reference we must NOT reproduce: `holder.js/...` image sources (need an extra script),
+  `via.placeholder.com` (offline), no JSX, no full-page templates, missing 5.3 utilities
+  (hstack/vstack, ratio, focus-ring, link-*, z-*, stretched-link — unconfirmed, verify before adding).
+- Our differentiators: works in JSX/TSX/Vue, alive on new IDE builds, a generator dialog (later),
+  and real photos via picsum.photos (see the photo-placeholders plugin).
+
+## Working rules
+- Read the official docs (https://plugins.jetbrains.com/docs/intellij/) before touching platform/Gradle code. Do not guess APIs.
+- **Never change the plugin id** `com.jamesmosquera.bootstraptoolkit` (permanent once published).
+- Never push to `main`, publish, create releases or tags without the owner's explicit OK.
+  A push to `main` makes CI create a draft GitHub release; work on `develop`.
+- Bootstrap 5.3 only. No Bootstrap 4 syntax (`data-toggle`, `ml-`, `text-left`, `badge-*`, ...).
+- **JSX/TSX needs `className` (never `class`/`for`).** Every HTML template needs a JSX counterpart with
+  the same abbreviation, in a separate templateSet group (same abbreviation twice in one group collides).
+- Context ids that exist in IDEA 2025.2 (verified): `HTML`, `HTML_TEXT`, `JSX_HTML` (base JAVA_SCRIPT),
+  `TSX_HTML` (base TypeScript — must be declared separately), `VUE_TEMPLATE`, `ANGULAR_TEMPLATE`.
+  PHP/Blade/Twig contexts only exist in PhpStorm.
+- Images: use https://picsum.photos, never `holder.js` or `via.placeholder.com` (tests enforce this).
+- Anything copied from anburocky3/bootstrap5-snippets (MIT, (c) 2021 Anbuselvan Annamalai) requires his
+  copyright + MIT notice in `THIRD_PARTY_NOTICES.md` and a credit in the README. Create the file the
+  moment the first copied snippet lands.
+- Plugin name must not contain "Plugin", "IntelliJ", "JetBrains". Whether "Bootstrap" in the name passes
+  Marketplace trademark review is UNCONFIRMED — check when uploading.
+- All UI strings (once a UI exists) go through a resource bundle: English + Spanish, kept in sync.
+- Every user-visible change gets a line under `## [Unreleased]` in CHANGELOG.md.
+- Commit messages in English, conventional style (`fix:`, `feat:`, `docs:`).
+
+## Commands
+```bash
+./gradlew build          # compile + tests
+./gradlew check          # unit tests only
+./gradlew verifyPlugin   # JetBrains Plugin Verifier (must pass before any release)
+./gradlew runIde         # sandbox IDE for manual testing
+./gradlew buildPlugin    # build/distributions/*.zip
+```
+Signing (later): keys go OUTSIDE the repo in `~/.bootstrap-toolkit-signing/` (chain.crt, private.pem,
+password.txt); CI uses CERTIFICATE_CHAIN / PRIVATE_KEY / PRIVATE_KEY_PASSWORD. Never commit or print them.
+Run `signPlugin` and `verifyPluginSignature` in separate invocations.
+
+## Layout
+- `src/main/resources/liveTemplates/BootstrapToolkitHtml.xml` — HTML + Vue (`class`)
+- `src/main/resources/liveTemplates/BootstrapToolkitJsx.xml` — JSX + TSX (`className`)
+- `src/main/resources/META-INF/plugin.xml`, `pluginIcon*.svg`
+- `src/test/kotlin/.../LiveTemplatesTest.kt` — XML guard tests (BS4 syntax, className, HTML/JSX parity, dead placeholders)
+
+## Next steps
+1. `runIde`: confirm `bs5-btn` expands in .html, .jsx, .tsx and Vue `<template>`.
+2. Decide the data source for templates (single structured file -> generated HTML/JSX XML), like the
+   reference's `src/templates` + generator scripts, so both dialects never drift.
+3. Grow coverage (components, 5.3 utilities, full-page starters), then the generator dialog.

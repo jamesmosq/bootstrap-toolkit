@@ -1,0 +1,14 @@
+.DS_Store
+.gradle
+.idea
+.intellijPlatform
+.kotlin
+build
+
+# Plugin signing material. The real keys live OUTSIDE the repo in ~/.bootstrap-toolkit-signing/;
+# these patterns are a safety net in case a copy ever lands in the project folder.
+.bootstrap-toolkit-signing/
+*.pem
+*.key
+password.txt
+chain.crt
