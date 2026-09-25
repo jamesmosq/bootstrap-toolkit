@@ -7,8 +7,13 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
 
 ## Status — read first
 - Early prototype: 2 components (`bs5-btn`, `bs5-alert`) x 2 dialects (HTML, JSX). No Kotlin code yet.
-- **Never run in a real IDE.** Only the XML guard tests exist. Whether the templates actually expand
-  inside JSX/TSX/Vue in `runIde` is UNVERIFIED — check that first.
+- **Verified manually (2026-09-24)** in WebStorm 2026.2 with the zip installed from disk: `bs5-btn` /
+  `bs5-alert` expand correctly in .html, .jsx, .tsx (`className`) and Vue `<template>` (`class`),
+  and take priority over Emmet.
+- `runIde` launches an unlicensed IDEA where JavaScript/CSS/React/Vue plugins do not load
+  (they need `com.intellij.modules.ultimate`), so it can only test HTML. Test JSX/TSX/Vue by
+  installing `build/distributions/*.zip` into WebStorm (Settings > Plugins > Install Plugin from Disk).
+  Test files live in `../bootstrap-toolkit-sandbox`.
 
 ## Why this plugin exists (research, Sep 2026)
 - Reference: VS Code "Bootstrap 5 Quick Snippets" (anburocky3/bootstrap5-snippets, MIT, 177 snippets).
@@ -61,7 +66,7 @@ Run `signPlugin` and `verifyPluginSignature` in separate invocations.
 - `src/test/kotlin/.../LiveTemplatesTest.kt` — XML guard tests (BS4 syntax, className, HTML/JSX parity, dead placeholders)
 
 ## Next steps
-1. `runIde`: confirm `bs5-btn` expands in .html, .jsx, .tsx and Vue `<template>`.
+1. ~~Confirm templates expand in .html, .jsx, .tsx and Vue~~ — done 2026-09-24 (WebStorm 2026.2).
 2. Decide the data source for templates (single structured file -> generated HTML/JSX XML), like the
    reference's `src/templates` + generator scripts, so both dialects never drift.
 3. Grow coverage (components, 5.3 utilities, full-page starters), then the generator dialog.
