@@ -6,7 +6,8 @@ Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugi
 Sister project (same build setup, already on the Marketplace): `../photo-placeholders`.
 
 ## Status — read first
-- Early prototype: 2 components (`bs5-btn`, `bs5-alert`) x 2 dialects (HTML, JSX). No Kotlin code yet.
+- Early prototype: 2 components (`bs5-btn`, `bs5-alert`), generated into 2 dialects (HTML, JSX).
+  No plugin Kotlin code yet; the only Kotlin is the build-time generator in `buildSrc`.
 - **Verified manually (2026-09-24)** in WebStorm 2026.2 with the zip installed from disk: `bs5-btn` /
   `bs5-alert` expand correctly in .html, .jsx, .tsx (`className`) and Vue `<template>` (`class`),
   and take priority over Emmet.
@@ -32,8 +33,16 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
 - Never push to `main`, publish, create releases or tags without the owner's explicit OK.
   A push to `main` makes CI create a draft GitHub release; work on `develop`.
 - Bootstrap 5.3 only. No Bootstrap 4 syntax (`data-toggle`, `ml-`, `text-left`, `badge-*`, ...).
-- **JSX/TSX needs `className` (never `class`/`for`).** Every HTML template needs a JSX counterpart with
-  the same abbreviation, in a separate templateSet group (same abbreviation twice in one group collides).
+- **Templates are written once, in HTML, in `src/templates/**/bs5-*.html`. Never hand-edit live template
+  XML** — `generateLiveTemplates` (buildSrc) produces both groups at build time: HTML/Vue as-is, and JSX/TSX
+  via `JsxConverter` (`className`, `htmlFor`, camelCase attrs, self-closed void tags, `style={{}}`,
+  `{/* */}`, `defaultValue`/`defaultChecked`). Same abbreviation in both, so they are separate templateSet
+  groups (same abbreviation twice in one group collides). If a source can't be converted safely the build
+  fails with the file name — fix the source, don't special-case the converter.
+- Source format: header `<!-- description: ...  /  var NAME: default -->` (var order = Tab order), then the
+  body. Every `$VAR$` used must be declared and vice versa; `$END$` is appended if missing.
+- Multi-line templates are not yet tested in an IDE (indentation on expansion, `toReformat`) — verify
+  with the first one.
 - Context ids that exist in IDEA 2025.2 (verified): `HTML`, `HTML_TEXT`, `JSX_HTML` (base JAVA_SCRIPT),
   `TSX_HTML` (base TypeScript — must be declared separately), `VUE_TEMPLATE`, `ANGULAR_TEMPLATE`.
   PHP/Blade/Twig contexts only exist in PhpStorm.
@@ -50,7 +59,8 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
 ## Commands
 ```bash
 ./gradlew build          # compile + tests
-./gradlew check          # unit tests only
+./gradlew check          # plugin guard tests (generated XML)
+./gradlew -p buildSrc test  # generator unit tests
 ./gradlew verifyPlugin   # JetBrains Plugin Verifier (must pass before any release)
 ./gradlew runIde         # sandbox IDE for manual testing
 ./gradlew buildPlugin    # build/distributions/*.zip
@@ -60,13 +70,15 @@ password.txt); CI uses CERTIFICATE_CHAIN / PRIVATE_KEY / PRIVATE_KEY_PASSWORD. N
 Run `signPlugin` and `verifyPluginSignature` in separate invocations.
 
 ## Layout
-- `src/main/resources/liveTemplates/BootstrapToolkitHtml.xml` — HTML + Vue (`class`)
-- `src/main/resources/liveTemplates/BootstrapToolkitJsx.xml` — JSX + TSX (`className`)
+- `src/templates/<category>/bs5-*.html` — the single source of every template
+- `buildSrc/` — generator: `TemplateSource` (parse/validate), `JsxConverter`, `LiveTemplateXml`,
+  `GenerateLiveTemplates` task. Unit tests: `./gradlew -p buildSrc test` (NOT run by `check`; CI runs both)
+- `build/generated/liveTemplates/liveTemplates/BootstrapToolkit{Html,Jsx}.xml` — generated, registered as
+  a resource root; not in git
 - `src/main/resources/META-INF/plugin.xml`, `pluginIcon*.svg`
 - `src/test/kotlin/.../LiveTemplatesTest.kt` — XML guard tests (BS4 syntax, className, HTML/JSX parity, dead placeholders)
 
 ## Next steps
 1. ~~Confirm templates expand in .html, .jsx, .tsx and Vue~~ — done 2026-09-24 (WebStorm 2026.2).
-2. Decide the data source for templates (single structured file -> generated HTML/JSX XML), like the
-   reference's `src/templates` + generator scripts, so both dialects never drift.
+2. ~~Single data source for templates~~ — done: `src/templates` + buildSrc generator.
 3. Grow coverage (components, 5.3 utilities, full-page starters), then the generator dialog.

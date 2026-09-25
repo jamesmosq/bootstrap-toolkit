@@ -8,11 +8,18 @@ import org.w3c.dom.Element
 import javax.xml.parsers.DocumentBuilderFactory
 
 /**
- * Guards the rules in CLAUDE.md. Pure XML checks: they need no IDE and no network.
+ * Guards the rules in CLAUDE.md on the XML generated from src/templates (see buildSrc).
+ * Pure XML checks: they need no IDE and no network.
  */
 class LiveTemplatesTest {
 
-    private class Tpl(val name: String, val value: String, val description: String, val contexts: Set<String>)
+    private class Tpl(
+        val name: String,
+        val value: String,
+        val description: String,
+        val contexts: Set<String>,
+        val variables: List<String>,
+    )
 
     private fun load(resource: String): List<Tpl> {
         val stream = javaClass.getResourceAsStream(resource) ?: error("missing resource $resource")
@@ -29,6 +36,9 @@ class LiveTemplatesTest {
                     .filter { it.getAttribute("value") == "true" }
                     .map { it.getAttribute("name") }
                     .toSet(),
+                variables = e.getElementsByTagName("variable").let { vars ->
+                    (0 until vars.length).map { j -> (vars.item(j) as Element).let { v -> "${v.getAttribute("name")}=${v.getAttribute("defaultValue")}" } }
+                },
             )
         }
     }
@@ -73,6 +83,26 @@ class LiveTemplatesTest {
     @Test
     fun `every html template has a jsx counterpart and vice versa`() =
         assertEquals(html.map { it.name }.toSet(), jsx.map { it.name }.toSet())
+
+    @Test
+    fun `jsx markup has no html-only syntax`() {
+        val unclosedVoid = Regex("""<(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)\b[^<>]*(?<!/)>""")
+        jsx.forEach {
+            assertFalse("${it.name} (JSX) has an HTML comment", it.value.contains("<!--"))
+            assertFalse("${it.name} (JSX) has a string style", Regex("""\sstyle\s*=\s*["']""").containsMatchIn(it.value))
+            assertFalse("${it.name} (JSX) has an unclosed void element", unclosedVoid.containsMatchIn(it.value))
+        }
+    }
+
+    @Test
+    fun `html and jsx versions share the same variables and description`() {
+        val jsxByName = jsx.associateBy { it.name }
+        html.forEach {
+            val other = jsxByName.getValue(it.name)
+            assertEquals("${it.name} variables differ", it.variables, other.variables)
+            assertEquals("${it.name} descriptions differ", "${it.description} (JSX/TSX)", other.description)
+        }
+    }
 
     @Test
     fun `no bootstrap 4 syntax`() {
