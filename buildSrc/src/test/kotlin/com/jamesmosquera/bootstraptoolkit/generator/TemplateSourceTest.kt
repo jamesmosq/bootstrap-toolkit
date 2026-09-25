@@ -37,6 +37,16 @@ class TemplateSourceTest {
         fails(valid.replace("var VARIANT: primary\r\n", "options VARIANT: primary\r\nvar VARIANT: primary\r\n")) // before var
         fails(withOptions.replace("primary, danger", "danger, dark")) // default not an option
         fails(withOptions.replace("primary, danger", "primary, primary")) // duplicates
+        fails(withOptions.replace("options VARIANT: primary, danger\r\n", "options VARIANT: primary\r\nexpr VARIANT: date()\r\n")) // both
+    }
+
+    @Test
+    fun `expr attaches a live template expression`() {
+        val withExpr = valid.replace("var TEXT: Button\r\n", "var TEXT: 2026\r\nexpr TEXT: date(\"yyyy\")\r\n")
+        assertEquals("date(\"yyyy\")", TemplateSource.parse("bs5-btn", withExpr).variables.last().expression)
+        assertThrows(IllegalArgumentException::class.java) {
+            TemplateSource.parse("bs5-btn", valid.replace("var TEXT: Button\r\n", "expr TEXT: date()\r\nvar TEXT: Button\r\n"))
+        }
     }
 
     @Test
