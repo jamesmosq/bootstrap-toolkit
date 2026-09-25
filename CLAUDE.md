@@ -6,8 +6,8 @@ Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugi
 Sister project (same build setup, already on the Marketplace): `../photo-placeholders`.
 
 ## Status — read first
-- Early prototype: 6 components (`bs5-btn`, `-alert`, `-card`, `-navbar`, `-modal`, `-form`), generated into
-  2 dialects (HTML, JSX).
+- Early prototype: 11 components + 1 page (`bs5-starter`), generated into 2 dialects (HTML, JSX).
+  See README for the list.
   No plugin Kotlin code yet; the only Kotlin is the build-time generator in `buildSrc`.
 - **Verified manually (2026-09-24)** in WebStorm 2026.2 with the zip installed from disk: `bs5-btn` /
   `bs5-alert` expand correctly in .html, .jsx, .tsx (`className`) and Vue `<template>` (`class`),
@@ -41,7 +41,8 @@ Sister project (same build setup, already on the Marketplace): `../photo-placeho
   groups (same abbreviation twice in one group collides). If a source can't be converted safely the build
   fails with the file name — fix the source, don't special-case the converter.
 - Source format: header `<!-- description: ...  /  kind: page (optional)  /  var NAME: default  /
-  options NAME: a, b, c (optional, after its var; becomes enum(...), default must be one of them) -->` (var order =
+  options NAME: a, b, c (optional, after its var; becomes enum(...), default must be one of them)  /
+  expr NAME: date("yyyy") (optional raw live template expression; default is the fallback) -->` (var order =
   Tab order), then the body. `kind: page` = whole `<!doctype html>` document: HTML context only (not Vue,
   no JSX); lives in `src/templates/pages`. Every `$VAR$` used must be declared and vice versa; `$END$` is appended if missing.
 - Never name a source directory or package `build`: `.gitignore` ignores every `build` path, so the files
@@ -92,7 +93,8 @@ Run `signPlugin` and `verifyPluginSignature` in separate invocations.
 ## Next steps
 1. ~~Confirm templates expand in .html, .jsx, .tsx and Vue~~ — done 2026-09-24 (WebStorm 2026.2).
 2. ~~Single data source for templates~~ — done: `src/templates` + buildSrc generator.
-3. Automate the TSX type check: it was done by hand once (typescript 5 + @types/react 19,
+3. Automate two checks done by hand so far: (a) every class an `options` list can produce exists in the
+   pinned bootstrap.min.css (all do as of 5.3.8); (b) the TSX type check: it was done by hand once (typescript 5 + @types/react 19,
    `tsc --noEmit --strict --jsx react-jsx` over every JSX template with defaults filled in) and caught
    `tabIndex="-1"` (must be `{-1}`). Make it a Gradle/CI step so every new template is compiled.
 4. Grow coverage (components, 5.3 utilities, full-page starters), then the generator dialog.
