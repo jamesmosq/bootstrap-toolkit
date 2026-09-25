@@ -3,7 +3,8 @@
 JetBrains IDE plugin (Kotlin) with Bootstrap 5.3 live templates for HTML, React (JSX/TSX) and Vue,
 planned to grow into a component generator dialog.
 Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugin Template.
-Sister project (same build setup, already on the Marketplace): `../photo-placeholders`.
+Sister projects (same build setup): `../photo-placeholders` (Marketplace id 34516) and `../modern-css-toolkit`
+(created 2026-09-25 from this repo for generic modern CSS, prefix `css-`; Bootstrap-specific CSS stays here as `bs5-`).
 
 ## Status — read first
 - 50 templates + 1 page (`bs5-starter`), sources grouped like the docs: `src/templates/{pages,layout,components,content,forms}`, generated into 2 dialects (HTML, JSX).
