@@ -29,7 +29,7 @@ class JsxConverterTest {
 
     @Test
     fun `data and aria attributes are kept, other hyphenated ones become camelCase`() = assertEquals(
-        """<svg strokeWidth="2" xlinkHref="#i" data-bs-toggle="modal" aria-label="Close" tabIndex="-1"></svg>""",
+        """<svg strokeWidth="2" xlinkHref="#i" data-bs-toggle="modal" aria-label="Close" tabIndex={-1}></svg>""",
         jsx("""<svg stroke-width="2" xlink:href="#i" data-bs-toggle="modal" aria-label="Close" tabindex="-1"></svg>"""),
     )
 
@@ -49,7 +49,13 @@ class JsxConverterTest {
         assertEquals("""<input className="form-check-input" type="checkbox" value="" defaultChecked />""",
             jsx("""<input class="form-check-input" type="checkbox" value="" checked>"""))
         assertEquals("""<input type="submit" value="Send" />""", jsx("""<input type="submit" value="Send">"""))
-        assertEquals("""<textarea defaultValue="x" rows="3"></textarea>""", jsx("""<textarea value="x" rows="3"></textarea>"""))
+        assertEquals("""<textarea defaultValue="x" rows={3}></textarea>""", jsx("""<textarea value="x" rows="3"></textarea>"""))
+    }
+
+    @Test
+    fun `numeric props become number expressions for TSX, non-numeric values stay strings`() {
+        assertEquals("""<td colSpan={2} className="x"></td>""", jsx("""<td colspan="2" class="x"></td>"""))
+        assertEquals("<div tabIndex=\"\$N\$\"></div>", jsx("<div tabindex=\"\$N\$\"></div>"))
     }
 
     @Test
