@@ -6,6 +6,13 @@ Owner: James Mosquera (jamesmosq). Built on the official IntelliJ Platform Plugi
 Sister projects (same build setup): `../photo-placeholders` (Marketplace id 34516) and `../modern-css-toolkit`
 (created 2026-09-25 from this repo for generic modern CSS, prefix `css-`; Bootstrap-specific CSS stays here as `bs5-`).
 
+## Published (2026-09-27)
+0.1.0 is public on the JetBrains Marketplace. Plugins by the same owner: Photo Placeholders (id 34516),
+Bootstrap Toolkit (id 34519, https://plugins.jetbrains.com/plugin/34519-bootstrap-toolkit), Modern CSS Toolkit
+(id 34527, https://plugins.jetbrains.com/plugin/34527-modern-css-toolkit). The owner uploads releases himself.
+To check Marketplace status use `/api/plugins/<id>/updates?size=1` (`listed`), NOT the `approve` field of
+`/api/plugins/<id>` (it said false for a public plugin). Main audience: the owner's students, who use WebStorm.
+
 ## Status — read first
 - 50 templates + 1 page (`bs5-starter`), sources grouped like the docs: `src/templates/{pages,layout,components,content,forms}`, generated into 2 dialects (HTML, JSX).
   See README for the list.
@@ -138,8 +145,8 @@ checks). Step 4-5 above therefore belong to future plugins, not this one.
 Picsum across plugins (owner idea, 2026-09-24): do NOT copy the Photo Placeholders dialog/templates into each
 plugin (duplicate menus and `picsum*` templates if both are installed, double maintenance). Instead:
 (1) picsum URLs inside templates (`/seed/<name>/W/H` so each image is distinct and stable);
-(2) recommend Photo Placeholders in the description — ONLY once it is approved (on 2026-09-24 the API still
-says `approve: false`; a link to a non-public listing counts as a broken link in review);
+(2) recommend Photo Placeholders in the description — it IS public (0.1.0, verified 2026-09-27; the earlier
+"not approved" reading of the API `approve` field was wrong); not done yet;
 (3) later, an optional plugin dependency on `com.jamesmosquera.photoplaceholders`
 (https://plugins.jetbrains.com/docs/intellij/plugin-dependencies.html, `<depends optional="true" config-file=...>`)
 to reuse its gallery, e.g. to change a card's photo. Needs Kotlin code; after 0.1.0.
